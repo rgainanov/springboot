@@ -3,29 +3,28 @@ package ru.geekbrains.springboot.springboot.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.springboot.springboot.models.Product;
-import ru.geekbrains.springboot.springboot.repositories.ProductsInMemoryRepository;
+import ru.geekbrains.springboot.springboot.repositories.ProductDAO;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class ProductService {
-    private final ProductsInMemoryRepository productRepository;
+    private final ProductDAO productDAO;
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Product findById(Long id) {
+        return productDAO.findById(id);
     }
 
     public List<Product> findAll() {
-        return productRepository.findAll();
+        return productDAO.findAll();
     }
 
     public Product insertOrUpdate(Product p) {
-        return productRepository.insertOrUpdate(p);
+        return productDAO.insertOrUpdate(p);
     }
 
     public void deleteById(Long id) {
-        productRepository.deleteById(id);
+        productDAO.deleteById(id);
     }
 }

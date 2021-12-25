@@ -22,7 +22,7 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Cost</th>
+            <th>Price</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -30,7 +30,7 @@
         <tr th:each="p : ${products}">
             <td th:text="${p.id}"/>
             <td th:text="${p.title}"/>
-            <td th:text="${p.cost}"/>
+            <td th:text="${p.price}"/>
             <td>
                 <a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id}}">Delete</a>
                 <a class="btn btn-warning" th:href="@{'/products/edit/' + ${p.id}}">Edit</a>
