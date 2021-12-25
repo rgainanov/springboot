@@ -14,7 +14,7 @@
         <form th:action="@{/products/edit}" th:object="${product}" method="post">
             <input hidden th:field="*{id}"/>
             Title : <input th:field="*{title}"/>
-            Cost : <input th:field="*{cost}"/>
+            Cost : <input th:field="*{price}"/>
             <button class="btn btn-primary" type="submit">Submit</button>
         </form>
     </div>
