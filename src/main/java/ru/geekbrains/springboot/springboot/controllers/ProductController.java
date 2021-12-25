@@ -6,17 +6,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springboot.springboot.models.Product;
+import ru.geekbrains.springboot.springboot.services.ProductCategoriesService;
 import ru.geekbrains.springboot.springboot.services.ProductService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ProductCategoriesService productCategoriesService;
 
     @GetMapping
-    public String showAll(Model model) {
-        model.addAttribute("products", productService.findAll());
+    public String showAll(
+            Model model,
+            @RequestParam(required = false, name = "product_category") Long productCategory
+    ) {
+        List<Product> out = productService.findAll();
+        if (productCategory != null) {
+            out = out.stream().filter(p -> p.getPg().getId().equals(productCategory)).collect(Collectors.toList());
+        }
+        model.addAttribute("products", out);
+        model.addAttribute("productCategories", productCategoriesService.findAll());
         return "products";
     }
 
@@ -27,7 +40,6 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addNewProduct(@ModelAttribute Product newProduct) {
-        productService.insertOrUpdate(newProduct);
         return "redirect:/products";
     }
 

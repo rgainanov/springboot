@@ -17,6 +17,19 @@
             </button>
         </form>
     </div>
+    <div style="display: flex; padding-bottom: 30px;">
+        <form method="get" th:action="@{'/products'}">
+            <select class="form-select" style="width: 100%" aria-label="Product category select"
+                    name="product_category">
+                <option>Select product Category</option>
+                <option th:each="pg : ${productCategories}"
+                        th:value="${pg.id}"
+                        th:text="${pg.productCategory}">Product Category
+                </option>
+            </select>
+            <button class="btn btn-primary" type="submit">Filter</button>
+        </form>
+    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -24,6 +37,7 @@
             <th>Title</th>
             <th>Price</th>
             <th>Action</th>
+            <th>Product Category</th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +49,7 @@
                 <a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id}}">Delete</a>
                 <a class="btn btn-warning" th:href="@{'/products/edit/' + ${p.id}}">Edit</a>
             </td>
+            <td th:text="${p.pg.productCategory}"/>
         </tr>
         </tbody>
     </table>

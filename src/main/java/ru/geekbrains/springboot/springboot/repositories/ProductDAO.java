@@ -5,6 +5,7 @@ import ru.geekbrains.springboot.springboot.models.Product;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import ru.geekbrains.springboot.springboot.models.ProductCategory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -18,6 +19,7 @@ public class ProductDAO {
     public void init() {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(Product.class)
+                .addAnnotatedClass(ProductCategory.class)
                 .buildSessionFactory();
     }
 
@@ -38,6 +40,7 @@ public class ProductDAO {
                 Product product = session.get(Product.class, p.getId());
                 product.setTitle(p.getTitle());
                 product.setPrice(p.getPrice());
+                product.setPg(p.getPg());
             } else {
                 session.save(p);
             }

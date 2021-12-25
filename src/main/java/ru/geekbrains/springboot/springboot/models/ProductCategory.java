@@ -5,35 +5,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product_category")
 @Setter
 @Getter
 @NoArgsConstructor
-public class Product {
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @OneToMany(mappedBy = "pg")
+    private List<Product> products;
 
-    @Column(name = "price")
-    private double price;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private ProductCategory pg;
+    @Column(name = "product_category")
+    private String productCategory;
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductCategory{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", productCategory=" + pg +
+                ", productCategory='" + productCategory + '\'' +
                 '}';
     }
 }

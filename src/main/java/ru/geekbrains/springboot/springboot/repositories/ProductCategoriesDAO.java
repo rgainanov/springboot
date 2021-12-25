@@ -4,34 +4,34 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.springboot.springboot.models.*;
+import ru.geekbrains.springboot.springboot.models.Product;
+import ru.geekbrains.springboot.springboot.models.ProductCategory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.List;
 
 @Component
-public class ShopCartDAO {
+public class ProductCategoriesDAO {
     private SessionFactory sessionFactory;
 
     @PostConstruct
     public void init() {
         sessionFactory = new Configuration()
-                .addAnnotatedClass(ShopCart.class)
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(ShopCartItems.class)
                 .addAnnotatedClass(Product.class)
                 .addAnnotatedClass(ProductCategory.class)
                 .buildSessionFactory();
-
-    // test table relations
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            session.beginTransaction();
-//
-//            ShopCart shopCart = session.get(ShopCart.class, 1L);
-//            session.getTransaction().commit();
-//        }
     }
 
+    public List<ProductCategory> getAllCategories() {
+        List<ProductCategory> productCategories;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+            productCategories = session.createQuery("SELECT p FROM ProductCategory p").getResultList();
+            session.getTransaction().commit();
+        }
+        return productCategories;
+    }
 
     @PreDestroy
     public void destroy() {
