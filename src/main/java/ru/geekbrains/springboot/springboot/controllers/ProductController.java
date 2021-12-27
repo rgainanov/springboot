@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springboot.springboot.models.Product;
+import ru.geekbrains.springboot.springboot.models.ProductCategory;
 import ru.geekbrains.springboot.springboot.services.ProductCategoriesService;
 import ru.geekbrains.springboot.springboot.services.ProductService;
 
@@ -40,6 +41,7 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addNewProduct(@ModelAttribute Product newProduct) {
+        productService.insertOrUpdate(newProduct);
         return "redirect:/products";
     }
 

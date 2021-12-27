@@ -2,13 +2,10 @@ package ru.geekbrains.springboot.springboot.repositories;
 
 import org.springframework.stereotype.Component;
 import ru.geekbrains.springboot.springboot.models.Product;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.geekbrains.springboot.springboot.models.ProductCategory;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.List;
 
 @Component
@@ -17,10 +14,7 @@ public class ProductDAO {
 
     @PostConstruct
     public void init() {
-        sessionFactory = new Configuration()
-                .addAnnotatedClass(Product.class)
-                .addAnnotatedClass(ProductCategory.class)
-                .buildSessionFactory();
+        sessionFactory = GlobalSessionFactory.getSessionFactory();
     }
 
     public List<Product> findAll() {
@@ -67,10 +61,5 @@ public class ProductDAO {
             session.delete(product);
             session.getTransaction().commit();
         }
-    }
-
-    @PreDestroy
-    public void destroy() {
-        sessionFactory.close();
     }
 }

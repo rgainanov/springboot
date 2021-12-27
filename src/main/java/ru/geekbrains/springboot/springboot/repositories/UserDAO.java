@@ -2,12 +2,10 @@ package ru.geekbrains.springboot.springboot.repositories;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.springboot.springboot.models.*;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 @Component
 public class UserDAO {
@@ -15,13 +13,7 @@ public class UserDAO {
 
     @PostConstruct
     public void init() {
-        sessionFactory = new Configuration()
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(ShopCart.class)
-                .addAnnotatedClass(ShopCartItems.class)
-                .addAnnotatedClass(Product.class)
-                .addAnnotatedClass(ProductCategory.class)
-                .buildSessionFactory();
+        sessionFactory = GlobalSessionFactory.getSessionFactory();
     }
 
     public User findByLogin(String login) {
@@ -52,10 +44,5 @@ public class UserDAO {
             session.getTransaction().commit();
         }
         return u;
-    }
-
-    @PreDestroy
-    public void destroy() {
-        sessionFactory.close();
     }
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+@Entity()
 @Table(name = "products")
 @Setter
 @Getter
@@ -23,7 +23,7 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "category_id")
     private ProductCategory pg;
 
