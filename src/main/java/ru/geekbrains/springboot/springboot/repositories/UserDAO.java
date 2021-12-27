@@ -4,10 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.springboot.springboot.models.Product;
-import ru.geekbrains.springboot.springboot.models.ShopCart;
-import ru.geekbrains.springboot.springboot.models.ShopCartItems;
-import ru.geekbrains.springboot.springboot.models.User;
+import ru.geekbrains.springboot.springboot.models.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -23,6 +20,7 @@ public class UserDAO {
                 .addAnnotatedClass(ShopCart.class)
                 .addAnnotatedClass(ShopCartItems.class)
                 .addAnnotatedClass(Product.class)
+                .addAnnotatedClass(ProductCategory.class)
                 .buildSessionFactory();
     }
 
