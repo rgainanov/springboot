@@ -57,8 +57,8 @@ public class ProductDAO {
     public void deleteById(Long id) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            session.delete(product);
+            session.createQuery("delete from Product p where p.id=:id", Product.class)
+                    .setParameter("id", id);
             session.getTransaction().commit();
         }
     }
