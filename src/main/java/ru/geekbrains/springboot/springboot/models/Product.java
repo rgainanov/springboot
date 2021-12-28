@@ -3,6 +3,7 @@ package ru.geekbrains.springboot.springboot.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -23,7 +24,7 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private ProductCategory pg;
 

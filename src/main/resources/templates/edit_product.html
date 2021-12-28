@@ -11,12 +11,23 @@
 <div class="container">
     <div style="padding: 40px">
         <h1>Edit Product Data</h1>
-        <form th:action="@{/products/edit}" th:object="${product}" method="post">
-            <input hidden th:field="*{id}"/>
-            Title : <input th:field="*{title}"/>
-            Cost : <input th:field="*{price}"/>
-            <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
+        <div style="display: flex; margin-right: 10px">
+            <form th:action="@{/products/edit}" th:object="${product}" method="post">
+                <input hidden th:field="*{id}"/>
+                Title : <input th:field="*{title}"/>
+                Cost : <input th:field="*{price}"/>
+                Category :
+                <select class="form-select" aria-label="Product category select"
+                        name="product_category">
+                    <option selected th:value="*{pg.id}" th:text="*{pg.productCategory}"></option>
+                    <option th:each="pg : ${productCategories}"
+                            th:value="${pg.id}"
+                            th:text="${pg.productCategory}">Product Category
+                    </option>
+                </select>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

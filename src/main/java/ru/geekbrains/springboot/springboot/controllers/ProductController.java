@@ -35,12 +35,17 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String showProductAddForm() {
+    public String showProductAddForm(Model model) {
+        model.addAttribute("productCategories", productCategoriesService.findAll());
         return "add_product";
     }
 
     @PostMapping("/add")
-    public String addNewProduct(@ModelAttribute Product newProduct) {
+    public String addNewProduct(
+            @ModelAttribute Product newProduct,
+            @RequestParam(required = false, name = "product_category") Long productCategory) {
+        ProductCategory productCategory1 = productCategoriesService.findById(productCategory);
+        newProduct.setPg(productCategory1);
         productService.insertOrUpdate(newProduct);
         return "redirect:/products";
     }
@@ -48,11 +53,16 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String showProductEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.findById(id));
+        model.addAttribute("productCategories", productCategoriesService.findAll());
         return "edit_product";
     }
 
     @PostMapping("/edit")
-    public String editProduct(@ModelAttribute Product editedProduct) {
+    public String editProduct(
+            @ModelAttribute Product editedProduct,
+            @RequestParam(required = false, name = "product_category") Long productCategory) {
+        ProductCategory productCategory1 = productCategoriesService.findById(productCategory);
+        editedProduct.setPg(productCategory1);
         productService.insertOrUpdate(editedProduct);
         return "redirect:/products";
     }
