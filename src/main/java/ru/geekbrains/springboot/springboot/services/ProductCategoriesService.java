@@ -2,22 +2,21 @@ package ru.geekbrains.springboot.springboot.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.springboot.springboot.models.Product;
 import ru.geekbrains.springboot.springboot.models.ProductCategory;
-import ru.geekbrains.springboot.springboot.repositories.ProductCategoriesDAO;
+import ru.geekbrains.springboot.springboot.repositories.ProductCategoryRepository;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class ProductCategoriesService {
-    private final ProductCategoriesDAO productCategoriesDAO;
+    private final ProductCategoryRepository productCategoryRepository;
 
     public List<ProductCategory> findAll() {
-        return productCategoriesDAO.getAllCategories();
+        return productCategoryRepository.findAll();
     }
 
     public ProductCategory findById(Long id) {
-        return productCategoriesDAO.findById(id);
+        return productCategoryRepository.findById(id).get();
     }
 }

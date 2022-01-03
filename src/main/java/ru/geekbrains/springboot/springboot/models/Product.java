@@ -3,7 +3,6 @@ package ru.geekbrains.springboot.springboot.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -34,7 +33,7 @@ public class Product {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", price=" + price +
-                ", productCategory=" + pg +
+//                ", productCategory=" + pg +
                 '}';
     }
 }

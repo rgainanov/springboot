@@ -2,6 +2,9 @@ package ru.geekbrains.springboot.springboot.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import ru.geekbrains.springboot.springboot.services.ProductService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/products")
@@ -23,14 +27,29 @@ public class ProductController {
     @GetMapping
     public String showAll(
             Model model,
-            @RequestParam(required = false, name = "product_category") Long productCategory
+            @RequestParam(required = false, name = "product_category") Long productCategory,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "7") int size
     ) {
-        List<Product> out = productService.findAll();
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<Product> productPage = productService.getPage(paging);
+        List<Product> out = productPage.getContent();
+
         if (productCategory != null) {
             out = out.stream().filter(p -> p.getPg().getId().equals(productCategory)).collect(Collectors.toList());
         }
+
+        int totalPages = productPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
         model.addAttribute("products", out);
         model.addAttribute("productCategories", productCategoriesService.findAll());
+        model.addAttribute("productPage", productPage);
         return "products";
     }
 
