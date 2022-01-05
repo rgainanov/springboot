@@ -49,7 +49,7 @@ public class ProductController {
                     .boxed()
                     .collect(Collectors.toList());
         }
-        
+
         Map<String, Object> response = new HashMap<>();
         response.put("products", out);
         response.put("currentPage", productPage.getNumber());
@@ -79,44 +79,4 @@ public class ProductController {
     public Product updateProduct(@RequestBody Product p) {
         return productService.insertOrUpdate(p);
     }
-
-//    @GetMapping("/add")
-//    public String showProductAddForm(Model model) {
-//        model.addAttribute("productCategories", productCategoriesService.findAll());
-//        return "add_product";
-//    }
-//
-//    @PostMapping("/add")
-//    public String addNewProduct(
-//            @ModelAttribute Product newProduct,
-//            @RequestParam(required = false, name = "product_category") Long productCategory) {
-//        ProductCategory productCategory1 = productCategoriesService.findById(productCategory);
-//        newProduct.setPg(productCategory1);
-//        productService.insertOrUpdate(newProduct);
-//        return "redirect:/products";
-//    }
-//
-//    @GetMapping("/edit/{id}")
-//    public String showProductEditForm(@PathVariable Long id, Model model) {
-//        model.addAttribute("product", productService.findById(id));
-//        model.addAttribute("productCategories", productCategoriesService.findAll());
-//        return "edit_product";
-//    }
-//
-//    @PostMapping("/edit")
-//    public String editProduct(
-//            @ModelAttribute Product editedProduct,
-//            @RequestParam(required = false, name = "product_category") Long productCategory) {
-//        ProductCategory productCategory1 = productCategoriesService.findById(productCategory);
-//        editedProduct.setPg(productCategory1);
-//        productService.insertOrUpdate(editedProduct);
-//        return "redirect:/products";
-//    }
-//
-//    @GetMapping("/delete/{id}")
-//    public String removeById(@PathVariable Long id) {
-//        productService.deleteById(id);
-//        return "redirect:/products";
-//    }
-
 }
