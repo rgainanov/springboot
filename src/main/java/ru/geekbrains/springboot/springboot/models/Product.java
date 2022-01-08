@@ -26,14 +26,4 @@ public class Product {
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private ProductCategory pg;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-//                ", productCategory=" + pg +
-                '}';
-    }
 }

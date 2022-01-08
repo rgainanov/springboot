@@ -1,13 +1,13 @@
 package ru.geekbrains.springboot.springboot.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.geekbrains.springboot.springboot.models.ProductCategory;
 import ru.geekbrains.springboot.springboot.repositories.ProductCategoryRepository;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ProductCategoriesService {
     private final ProductCategoryRepository productCategoryRepository;
