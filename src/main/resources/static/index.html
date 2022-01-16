@@ -22,7 +22,22 @@
     </div>
     <div>
         <form novalidate ng-submit="fillTable()" style="display: flex; padding: 30px;">
-            <input class="form-control" type="text" ng-model="filter.product_category" id="filterProductCategory">
+            <div style="margin: 10px">
+                <label for="filterProductCategory">Product Category</label>
+                <input class="form-control" type="text" ng-model="filter.product_category" id="filterProductCategory">
+            </div>
+            <div style="margin: 10px">
+                <label for="filterMinPrice">Min Price</label>
+                <input class="form-control" type="number" ng-model="filter.min_price" id="filterMinPrice">
+            </div>
+            <div style="margin: 10px">
+                <label for="filterMaxPrice">Max Price</label>
+                <input class="form-control" type="number" ng-model="filter.max_price" id="filterMaxPrice">
+            </div>
+            <div style="margin: 10px">
+                <label for="filterTitle">Title</label>
+                <input class="form-control" type="text" ng-model="filter.title" id="filterTitle">
+            </div>
             <button class="btn btn-success" type="submit">Filter</button>
         </form>
     </div>
@@ -37,7 +52,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="p in ProductsList">
+        <tr ng-repeat="p in ProductsPage.content">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
@@ -52,13 +67,15 @@
     <div style="display: flex; justify-content: center;">
         <nav aria-label="Pagination">
             <ul class="pagination">
-                <li class="{{number == currentPage ? 'page-item active' : 'page-item'}}"
-                    ng-repeat="number in PageNumbers">
-                    <a
-                            class="page-link"
-                            href
-                            ng-click="getPage(number)"
-                    >{{number}}</a>
+                <li ng-class="ProductsPage.first ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" ng-click="fillTable(ProductsPage.number)">Previous</a>
+                </li>
+                <li ng-class="ProductsPage.number == pageIndex -1 ? 'page-item active' : 'page-item'"
+                    ng-repeat="pageIndex in PaginationArray">
+                    <a class="page-link" ng-click="fillTable(pageIndex)">{{pageIndex}}</a>
+                </li>
+                <li ng-class="ProductsPage.last ? 'page-item disabled' : 'page-item'">
+                    <a class="page-link" ng-click="fillTable(ProductsPage.number + 2)">Next</a>
                 </li>
             </ul>
         </nav>

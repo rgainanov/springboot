@@ -3,8 +3,11 @@ package ru.geekbrains.springboot.springboot.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity()
 @Table(name = "products")
@@ -21,9 +24,29 @@ public class Product {
     private String title;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private ProductCategory pg;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", createAt=" + createAt +
+                ", updatedAt=" + updatedAt +
+                ", pg=" + pg +
+                '}';
+    }
 }
