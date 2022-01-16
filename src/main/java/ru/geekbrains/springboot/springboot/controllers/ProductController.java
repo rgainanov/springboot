@@ -7,9 +7,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springboot.springboot.dtos.ProductDto;
 import ru.geekbrains.springboot.springboot.exceptions.ResourceNotFoundException;
+import ru.geekbrains.springboot.springboot.models.ProductCategory;
+import ru.geekbrains.springboot.springboot.models.ProductImage;
 import ru.geekbrains.springboot.springboot.repositories.specifications.ProductSpecifications;
 import ru.geekbrains.springboot.springboot.services.ProductCategoriesService;
+import ru.geekbrains.springboot.springboot.services.ProductImageService;
 import ru.geekbrains.springboot.springboot.services.ProductService;
+import ru.geekbrains.springboot.springboot.forms.NewProductUploadForm;
+
+import java.io.IOException;
 
 
 @RestController
@@ -18,6 +24,7 @@ import ru.geekbrains.springboot.springboot.services.ProductService;
 public class ProductController {
     private final ProductService productService;
     private final ProductCategoriesService productCategoriesService;
+    private final ProductImageService productImageService;
 
     @GetMapping
     public Page<ProductDto> showAll(
@@ -38,8 +45,21 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto addNewProduct(@RequestBody ProductDto p) {
+    public ProductDto addNewProduct(@ModelAttribute NewProductUploadForm form) {
+        ProductDto p = new ProductDto();
+        ProductCategory pg = productCategoriesService.findById(form.getProductCategoryId()).get();
+        ProductImage pi = productImageService.insertOrUpdate(new ProductImage(form.getFiles()[0].getOriginalFilename()));
         p.setId(null);
+        p.setTitle(form.getTitle());
+        p.setPrice(form.getPrice());
+        p.setPg(pg);
+        p.setProductImage(pi);
+        try {
+            productImageService.saveImage(form.getFiles());
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
         return productService.insertOrUpdate(p);
     }
 

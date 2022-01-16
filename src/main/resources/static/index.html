@@ -48,6 +48,7 @@
             <th>Title</th>
             <th>Price</th>
             <th>Product Category</th>
+            <th>Product Image</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -57,6 +58,9 @@
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>{{p.pg.productCategory}}</td>
+            <td>
+                <img width="40" height="40" ng-src="{{'http://localhost:8189/app/images/' + p.productImage.imagePath}}"/>
+            </td>
             <td>
                 <button class="btn btn-warning" ng-click="editProductPage(p.id)">Edit</button>
                 <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Delete</button>

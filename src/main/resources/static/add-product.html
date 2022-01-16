@@ -18,11 +18,16 @@
     <div style="display: flex; margin-right: 10px; padding: 40px;">
         <form novalidate ng-submit="submitCreateNewProduct()">
             <input class="form-control" placeholder="Enter Title" type="text" ng-model="newProduct.title"
-                   id="newProductTitle">
-            <input class="form-control" placeholder="Enter Price" type="text" ng-model="newProduct.price"
-                   id="newProductPrice">
-            <input class="form-control" placeholder="Enter Product Category Id" type="text" ng-model="newProduct.pg.id"
-                   id="newProductPgId">
+                   id="newProductTitle"/>
+            <input class="form-control" placeholder="Enter Price" type="number" ng-model="newProduct.price"
+                   id="newProductPrice"/>
+            <input class="form-control" placeholder="Enter Product Category Id" type="number"
+                   ng-model="newProduct.pg.id"
+                   id="newProductPgId"/>
+            <div style="display: flex; align-items: center; flex-direction: row; margin: 10px;">
+                Select Product Picture : <input class="form-control" type="file" file-model="newProduct.files[0]"
+                                                id="newProductImage"/>
+            </div>
             <button class="btn btn-danger" type="submit">Submit</button>
         </form>
     </div>

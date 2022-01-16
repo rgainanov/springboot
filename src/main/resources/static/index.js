@@ -1,4 +1,22 @@
-angular.module('app', []).controller('indexController', function ($scope, $http) {
+let mainApp = angular.module('app', []);
+
+mainApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            let model = $parse(attrs.fileModel);
+            let modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+mainApp.controller('indexController', function ($scope, $http) {
     const appUrl = 'http://localhost:8189/app';
     const apiContextPath = 'http://localhost:8189/app/api/v1';
     $scope.currentPage = 1;
@@ -6,9 +24,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
 
     $scope.fillTable = function (pageIndex = 1) {
         $http({
-            url: apiContextPath + '/products',
-            method: 'GET',
-            params: {
+            url: apiContextPath + '/products', method: 'GET', params: {
                 title: $scope.filter ? $scope.filter.title : null,
                 min_price: $scope.filter ? $scope.filter.min_price : null,
                 max_price: $scope.filter ? $scope.filter.max_price : null,
@@ -45,11 +61,6 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         return arr;
     }
 
-    $scope.getPage = function (page) {
-        $scope.currentPage = page;
-        $scope.fillTable();
-    }
-
     $scope.addProductPage = function () {
         location.href = (appUrl + '/add-product.html');
     }
@@ -59,7 +70,25 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     }
 
     $scope.submitCreateNewProduct = function () {
-        $http.post(apiContextPath + '/products', $scope.newProduct)
+
+        let data = new FormData();
+
+        data.append("files", $scope.newProduct.files[0])
+        data.append("title", $scope.newProduct.title)
+        data.append("price", $scope.newProduct.price)
+        data.append("productCategory", $scope.newProduct.pg.id)
+
+        console.log(data)
+
+        let config = {
+            transformRequest: angular.identity,
+            transformResponse: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }
+
+        $http.post(apiContextPath + '/products', data, config)
             .then(function (response) {
                 location.href = '/app/index.html';
                 $scope.newProduct = null;
