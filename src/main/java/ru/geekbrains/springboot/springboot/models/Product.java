@@ -38,6 +38,10 @@ public class Product {
     @JoinColumn(name = "category_id")
     private ProductCategory pg;
 
+    @ManyToOne()
+    @JoinColumn(name = "image_id")
+    private ProductImage productImage;
+
     @Override
     public String toString() {
         return "Product{" +
@@ -47,6 +51,7 @@ public class Product {
                 ", createAt=" + createAt +
                 ", updatedAt=" + updatedAt +
                 ", pg=" + pg +
+                ", productImage=" + productImage +
                 '}';
     }
 }
