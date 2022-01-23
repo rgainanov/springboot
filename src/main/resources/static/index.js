@@ -53,6 +53,16 @@ mainApp.controller('indexController', function ($scope, $http) {
         });
     };
 
+    $scope.showCart = function () {
+        $http({
+            url: apiContextPath + '/cart',
+            method: 'GET'
+        }).then(function (response) {
+            $scope.Cart = response.data;
+            console.log($scope.Cart);
+        });
+    };
+
     $scope.generatePagesIndexes = function (startPage, endPage) {
         let arr = [];
         for (let i = startPage; i <= endPage; i++) {
@@ -103,6 +113,41 @@ mainApp.controller('indexController', function ($scope, $http) {
             });
     };
 
+    $scope.addToCart = function (id) {
+        $http.get(apiContextPath + '/cart/add/' + id)
+            .then(function (response) {
+                location.href = (appUrl + '/cart.html');
+                $scope.showCart();
+                // $scope.cartPage();
+            });
+    };
+
+    $scope.incrementProductInCart = function (product) {
+        // todo
+        console.log(product);
+    };
+
+    $scope.decrementProductInCart = function (product) {
+        // todo
+        console.log(product);
+    };
+
+    $scope.deleteProductFromCart = function (product) {
+        // todo
+        console.log(product);
+    };
+
+    $scope.backToIndex = function () {
+        location.href = (appUrl + '/index.html');
+    };
+
+    $scope.clearCart = function () {
+        $http(apiContextPath + '/cart/clear')
+            .then(function (response) {
+                $scope.showCart();
+            });
+    };
+
     $scope.updateProductById = function () {
         $http.put(apiContextPath + '/products', $scope.updateProduct)
             .then(function (response) {
@@ -113,4 +158,5 @@ mainApp.controller('indexController', function ($scope, $http) {
     };
 
     $scope.fillTable();
+    $scope.showCart();
 });

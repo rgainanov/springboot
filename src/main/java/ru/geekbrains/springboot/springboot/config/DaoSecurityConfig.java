@@ -24,9 +24,7 @@ public class DaoSecurityConfig extends WebSecurityConfigurerAdapter {
         logger.info("DAO Authentication Provider");
 
         http.authorizeRequests()
-                .antMatchers("/authenticated/**").authenticated()
-                .antMatchers("/dao").authenticated()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                .antMatchers("/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin();
