@@ -59,11 +59,13 @@
             <td>{{p.price}}</td>
             <td>{{p.pg.productCategory}}</td>
             <td>
-                <img width="40" height="40" ng-src="{{'http://localhost:8189/app/images/' + p.productImage.imagePath}}"/>
+                <img width="40" height="40"
+                     ng-src="{{'http://localhost:8189/app/images/' + p.productImage.imagePath}}"/>
             </td>
             <td>
                 <button class="btn btn-warning" ng-click="editProductPage(p.id)">Edit</button>
                 <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Delete</button>
+                <button class="btn btn-primary" ng-click="addToCart(p.id)">Add To Cart</button>
             </td>
         </tr>
         </tbody>
